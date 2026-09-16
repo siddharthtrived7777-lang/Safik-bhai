@@ -1,0 +1,6 @@
+{
+  "name": "સફીક ભાઈનું ડેશબોર્ડ",
+  "description": "સફીક ભાઈ (@surendranagar_safik) માટે સુરેન્દ્રનગર દુકાન પ્રમોશન શૂટ, શેડ્યૂલ અને પેમેન્ટ ટ્રેકર એપ",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
