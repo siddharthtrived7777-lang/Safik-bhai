@@ -57,7 +57,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   // 5. Total upcoming shoots (future)
   const upcomingShoots = shops
-    .filter((s) => s.status === 'upcoming' || s.status === 'shot')
+    .filter((s) => s.status === 'upcoming')
     .sort((a, b) => new Date(a.shootDateTime).getTime() - new Date(b.shootDateTime).getTime())
     .slice(0, 5);
 
@@ -65,16 +65,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     switch (status) {
       case 'upcoming':
         return <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">આગામી શૂટ</span>;
-      case 'shot':
-        return <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-200">શૂટ પૂરું</span>;
-      case 'posted':
-        return <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">રીલ મુકાઈ ગઈ</span>;
-      case 'payment_pending':
-        return <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-200">પેમેન્ટ બાકી</span>;
-      case 'payment_done':
-        return <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">પૂર્ણ</span>;
+      case 'completed':
       default:
-        return null;
+        return <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">શૂટ પૂર્ણ</span>;
     }
   };
 
@@ -317,10 +310,18 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {upcomingShoots.length === 0 ? (
-          <div className="text-center py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+          <div className="text-center py-7 bg-slate-50/80 rounded-2xl border border-dashed border-slate-200 p-4">
             <Store className="w-8 h-8 text-slate-300 mx-auto mb-1.5" />
-            <p className="text-xs font-bold text-slate-600">હાલ કોઈ આગામી શૂટ નથી</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">નવી દુકાન ઉમેરવા ઉપરનું બટન દબાવો</p>
+            <p className="text-xs font-bold text-slate-700">હાલ કોઈ શૂટ શેડ્યૂલ નથી</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">ક્લાયન્ટ/દુકાનદારની નવી વિગત ઉમેરો</p>
+            <button
+              type="button"
+              onClick={onAddNewShop}
+              className="mt-3 px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 active:scale-95 text-white text-xs font-bold inline-flex items-center gap-1.5 shadow-sm transition-all"
+            >
+              <PlusCircle className="w-3.5 h-3.5" />
+              <span>પ્રથમ દુકાન ઉમેરો</span>
+            </button>
           </div>
         ) : (
           <div className="space-y-2.5">

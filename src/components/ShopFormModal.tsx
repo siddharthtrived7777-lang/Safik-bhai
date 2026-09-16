@@ -121,14 +121,8 @@ export const ShopFormModal: React.FC<ShopFormModalProps> = ({
     onClose();
   };
 
-  // If status changed to payment_done, auto-mark payment as done
   const handleStatusChange = (newStatus: ShootStatus) => {
     setStatus(newStatus);
-    if (newStatus === 'payment_done') {
-      setPaymentStatus('done');
-    } else if (newStatus === 'payment_pending') {
-      setPaymentStatus('remaining');
-    }
   };
 
   return (
@@ -233,25 +227,22 @@ export const ShopFormModal: React.FC<ShopFormModalProps> = ({
             {errors.shootDateTime && <p className="text-xs text-rose-500 mt-1 font-medium">{errors.shootDateTime}</p>}
           </div>
 
-          {/* Status Selection */}
+          {/* Status Selection: Only Upcoming and Completed in Gujarati */}
           <div>
             <label className="block text-xs font-bold text-slate-700 mb-1.5">
-              શૂટ સ્ટેટસ (Status)
+              શૂટ સ્ટેટસ
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2.5">
               {[
-                { id: 'upcoming' as ShootStatus, label: 'આગામી શૂટ (Upcoming)', color: 'bg-amber-50 border-amber-300 text-amber-900' },
-                { id: 'shot' as ShootStatus, label: 'શૂટ પૂરું (Shot)', color: 'bg-blue-50 border-blue-300 text-blue-900' },
-                { id: 'posted' as ShootStatus, label: 'રીલ પોસ્ટ થઈ (Posted)', color: 'bg-purple-50 border-purple-300 text-purple-900' },
-                { id: 'payment_pending' as ShootStatus, label: 'પેમેન્ટ બાકી (Pending)', color: 'bg-rose-50 border-rose-300 text-rose-900' },
-                { id: 'payment_done' as ShootStatus, label: 'પેમેન્ટ પૂર્ણ (Done)', color: 'bg-emerald-50 border-emerald-300 text-emerald-900' }
+                { id: 'upcoming' as ShootStatus, label: 'આગામી શૂટ', color: 'bg-amber-50 border-amber-300 text-amber-900' },
+                { id: 'completed' as ShootStatus, label: 'શૂટ પૂર્ણ', color: 'bg-emerald-50 border-emerald-300 text-emerald-900' }
               ].map((item) => (
                 <button
                   key={item.id}
                   id={`status-option-${item.id}`}
                   type="button"
                   onClick={() => handleStatusChange(item.id)}
-                  className={`p-2.5 rounded-xl border text-xs font-bold text-left transition-all ${
+                  className={`p-3 rounded-2xl border text-xs font-bold text-center transition-all ${
                     status === item.id
                       ? `${item.color} ring-2 ring-rose-500 shadow-sm`
                       : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'

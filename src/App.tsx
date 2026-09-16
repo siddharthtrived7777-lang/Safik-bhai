@@ -138,13 +138,6 @@ export default function App() {
 
   const handleTogglePaymentStatus = (shop: ShopEntry) => {
     const newPaymentStatus: PaymentStatus = shop.paymentStatus === 'done' ? 'remaining' : 'done';
-    let newStatus: ShootStatus = shop.status;
-
-    if (newPaymentStatus === 'done' && (shop.status === 'payment_pending' || shop.status === 'shot' || shop.status === 'posted')) {
-      newStatus = 'payment_done';
-    } else if (newPaymentStatus === 'remaining' && shop.status === 'payment_done') {
-      newStatus = 'payment_pending';
-    }
 
     setShops((prev) =>
       prev.map((s) =>
@@ -152,7 +145,6 @@ export default function App() {
           ? {
               ...s,
               paymentStatus: newPaymentStatus,
-              status: newStatus,
               updatedAt: new Date().toISOString()
             }
           : s
@@ -164,16 +156,9 @@ export default function App() {
     setShops((prev) =>
       prev.map((s) => {
         if (s.id !== shopId) return s;
-        let newPaymentStatus = s.paymentStatus;
-        if (newStatus === 'payment_done') {
-          newPaymentStatus = 'done';
-        } else if (newStatus === 'payment_pending') {
-          newPaymentStatus = 'remaining';
-        }
         return {
           ...s,
           status: newStatus,
-          paymentStatus: newPaymentStatus,
           updatedAt: new Date().toISOString()
         };
       })

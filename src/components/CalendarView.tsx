@@ -256,10 +256,19 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                     >
                       {shop.shopName}
                     </h4>
-                    <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
-                      <Clock className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{formatGujaratiTime(shop.shootDateTime)}</span>
-                    </p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <p className="text-xs text-slate-500 flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-slate-400" />
+                        <span>{formatGujaratiTime(shop.shootDateTime)}</span>
+                      </p>
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${
+                        shop.status === 'upcoming' 
+                          ? 'bg-amber-100 text-amber-900 border border-amber-200' 
+                          : 'bg-emerald-100 text-emerald-900 border border-emerald-200'
+                      }`}>
+                        {shop.status === 'upcoming' ? 'આગામી શૂટ' : 'શૂટ પૂર્ણ'}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="text-right">

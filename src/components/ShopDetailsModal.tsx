@@ -144,22 +144,35 @@ export const ShopDetailsModal: React.FC<ShopDetailsModalProps> = ({
             </div>
           </div>
 
-          {/* Status Quick Changer */}
+          {/* Status Quick Changer: Only Upcoming and Completed in Gujarati */}
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">
-              હાલનું શૂટ સ્ટેટસ બદલો:
+            <label className="block text-xs font-bold text-slate-700 mb-1.5">
+              શૂટ સ્ટેટસ:
             </label>
-            <select
-              value={shop.status}
-              onChange={(e) => onUpdateStatus(shop.id, e.target.value as ShootStatus)}
-              className="w-full p-2.5 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:ring-2 focus:ring-rose-500 focus:outline-none"
-            >
-              <option value="upcoming">આગામી શૂટ (Upcoming)</option>
-              <option value="shot">શૂટ પૂરું થયું (Shot)</option>
-              <option value="posted">રીલ/પોસ્ટ મુકાઈ ગઈ (Posted)</option>
-              <option value="payment_pending">પેમેન્ટ બાકી (Payment Pending)</option>
-              <option value="payment_done">પેમેન્ટ પૂર્ણ (Payment Done)</option>
-            </select>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => onUpdateStatus(shop.id, 'upcoming')}
+                className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border ${
+                  shop.status === 'upcoming'
+                    ? 'bg-amber-100 border-amber-300 text-amber-900 shadow-xs ring-1 ring-amber-400'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                આગામી શૂટ
+              </button>
+              <button
+                type="button"
+                onClick={() => onUpdateStatus(shop.id, 'completed')}
+                className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border ${
+                  shop.status === 'completed'
+                    ? 'bg-emerald-100 border-emerald-300 text-emerald-900 shadow-xs ring-1 ring-emerald-400'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                શૂટ પૂર્ણ
+              </button>
+            </div>
           </div>
 
           {/* Address Note */}

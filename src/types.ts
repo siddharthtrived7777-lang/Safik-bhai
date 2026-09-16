@@ -3,11 +3,8 @@
  */
 
 export type ShootStatus = 
-  | 'upcoming'        // આગામી શૂટ
-  | 'shot'            // શૂટ પૂરું થયું
-  | 'posted'          // પોસ્ટ/રીલ મુકાઈ ગઈ
-  | 'payment_pending' // પેમેન્ટ બાકી
-  | 'payment_done';   // પેમેન્ટ પૂર્ણ
+  | 'upcoming'   // આગામી
+  | 'completed'; // પૂર્ણ
 
 export type PaymentStatus = 'remaining' | 'done'; // બાકી | મળી ગયું
 
