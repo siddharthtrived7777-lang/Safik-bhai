@@ -203,24 +203,33 @@ export default function App() {
       <main className="w-full max-w-md bg-slate-50 min-h-screen flex flex-col shadow-2xl relative pb-20">
         
         {/* Top Sticky App Bar */}
-        <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-600 to-amber-500 flex items-center justify-center text-white shadow-sm">
+        <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 px-4 py-2.5 flex items-center justify-between">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-600 to-amber-500 flex items-center justify-center text-white shadow-sm shrink-0">
               <Instagram className="w-4 h-4" />
             </div>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <h1 className="text-sm font-black text-slate-900 tracking-tight">
+                <h1 className="text-sm font-black text-slate-900 tracking-tight truncate">
                   સફીક ભાઈનું ડેશબોર્ડ
                 </h1>
-                <span className="text-[9px] font-bold bg-rose-100 text-rose-700 px-1.5 py-0.2 rounded-md">
+                <span className="text-[9px] font-bold bg-rose-100 text-rose-700 px-1.5 py-0.2 rounded-md shrink-0">
                   LIVE
                 </span>
               </div>
-              <p className="text-[10px] text-slate-500 font-medium">
+              <p className="text-[10px] text-slate-500 font-medium truncate">
                 સુરેન્દ્રનગર ઇન્સ્ટા પ્રમોશન • @{profile.pageName}
               </p>
             </div>
+          </div>
+
+          <div className="shrink-0 pl-2 text-right">
+            <span className="text-[9px] font-semibold text-slate-400 block leading-tight">
+              Developed by
+            </span>
+            <span className="text-[11px] font-bold text-slate-800 block leading-tight">
+              Siddharth
+            </span>
           </div>
         </header>
 
@@ -265,6 +274,13 @@ export default function App() {
             />
           )}
         </div>
+
+        {/* App Footer / Credit */}
+        <footer className="py-3 px-4 text-center mt-auto border-t border-slate-200/60">
+          <p className="text-[11px] text-slate-400 font-medium">
+            Developed by <span className="font-bold text-slate-700">Siddharth</span>
+          </p>
+        </footer>
 
         {/* Bottom Mobile Navigation */}
         <Navigation
