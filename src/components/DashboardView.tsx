@@ -6,9 +6,7 @@ import {
   Phone, 
   MessageCircle, 
   AlertCircle, 
-  IndianRupee, 
   MapPin, 
-  CheckCircle2, 
   ChevronRight,
   ChevronDown,
   ChevronUp,
@@ -24,7 +22,7 @@ interface DashboardViewProps {
   shops: ShopEntry[];
   onAddNewShop: () => void;
   onOpenShopDetails: (shop: ShopEntry) => void;
-  onOpenPaymentReminder: (shop: ShopEntry) => void;
+  onOpenPaymentReminder?: (shop: ShopEntry) => void;
   setActiveTab: (tab: ActiveTab) => void;
 }
 
@@ -32,7 +30,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   shops,
   onAddNewShop,
   onOpenShopDetails,
-  onOpenPaymentReminder,
   setActiveTab
 }) => {
   // Toggle for expanding compact reminder row
@@ -51,11 +48,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   // 3. This week's shoots
   const thisWeekShoots = shops.filter((s) => isThisWeek(s.shootDateTime));
 
-  // 4. Pending payments
-  const pendingPayments = shops.filter((s) => s.paymentStatus === 'remaining');
-  const totalPendingAmount = pendingPayments.reduce((acc, curr) => acc + (curr.paymentAmount || 0), 0);
-
-  // 5. Total upcoming shoots (future)
+  // 4. Total upcoming shoots (future)
   const upcomingShoots = shops
     .filter((s) => s.status === 'upcoming')
     .sort((a, b) => new Date(a.shootDateTime).getTime() - new Date(b.shootDateTime).getTime())
@@ -84,7 +77,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             નમસ્તે, સફીક ભાઈ! 🙏
           </h1>
           <p className="text-xs text-rose-100/90 mt-1">
-            આજના શૂટ શેડ્યૂલ અને પેમેન્ટ ફોલો-અપ
+            આજના અને આગામી પ્રમોશન શૂટ શેડ્યૂલ
           </p>
         </div>
 
@@ -217,13 +210,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-slate-500 font-medium">પ્રમોશન ચાર્જ:</span>
-                        <span className="font-bold text-slate-900">
-                          {shop.paymentAmount ? `₹${shop.paymentAmount.toLocaleString('en-IN')}` : 'રકમ નક્કી નથી'}
-                        </span>
-                      </div>
-
                       {shop.addressNote && (
                         <div className="text-[11px] text-slate-600 flex items-start gap-1.5 bg-white p-2 rounded-xl border border-slate-100">
                           <MapPin className="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5" />
@@ -265,32 +251,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
         </div>
       )}
-
-      {/* Rest of Dashboard: Pending Payments Summary */}
-      <div 
-        onClick={() => setActiveTab('payments')}
-        className="bg-gradient-to-r from-rose-50 to-orange-50 p-4 rounded-2xl border border-rose-200/90 shadow-sm flex items-center justify-between cursor-pointer hover:border-rose-400 transition-all"
-      >
-        <div>
-          <div className="flex items-center gap-1.5 text-xs font-bold text-rose-800">
-            <IndianRupee className="w-4 h-4 text-rose-600" />
-            <span>બાકી પેમેન્ટ હિસાબ</span>
-          </div>
-          <div className="text-2xl font-black text-rose-700 mt-1">
-            ₹{totalPendingAmount.toLocaleString('en-IN')}
-          </div>
-          <div className="text-xs text-rose-600/90 font-medium">
-            {pendingPayments.length} દુકાનો પાસેથી પેમેન્ટ લેવાનું બાકી છે
-          </div>
-        </div>
-
-        <div className="flex flex-col items-end">
-          <span className="px-3 py-1.5 rounded-xl bg-rose-600 text-white text-xs font-bold shadow-sm flex items-center gap-1">
-            <span>તપાસો</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </span>
-        </div>
-      </div>
 
       {/* Upcoming Shoots Section */}
       <div className="bg-white rounded-3xl p-4 border border-slate-200/90 shadow-sm space-y-3">
@@ -350,64 +310,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </div>
 
                 <div className="text-right shrink-0">
-                  <div className="text-xs font-bold text-slate-900">
-                    ₹{shop.paymentAmount ? shop.paymentAmount.toLocaleString('en-IN') : '૦'}
-                  </div>
-                  <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md mt-1 inline-block ${
-                    shop.paymentStatus === 'done' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-700'
-                  }`}>
-                    {shop.paymentStatus === 'done' ? 'મળી ગયું' : 'બાકી'}
-                  </span>
+                  <ChevronRight className="w-4 h-4 text-slate-400" />
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
-
-      {/* Quick Pending Payment Followups */}
-      {pendingPayments.length > 0 && (
-        <div className="bg-white rounded-3xl p-4 border border-slate-200/90 shadow-sm space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <IndianRupee className="w-4 h-4 text-rose-600" />
-              <h3 className="text-sm font-bold text-slate-900">પેમેન્ટ ફોલો-અપ (રિમાઇન્ડર)</h3>
-            </div>
-            <button
-              type="button"
-              onClick={() => setActiveTab('payments')}
-              className="text-xs text-rose-600 font-bold hover:underline"
-            >
-              બધા જુઓ
-            </button>
-          </div>
-
-          <div className="space-y-2">
-            {pendingPayments.slice(0, 3).map((shop) => (
-              <div
-                key={shop.id}
-                className="p-3 rounded-2xl border border-rose-100 bg-rose-50/40 flex items-center justify-between gap-2"
-              >
-                <div className="min-w-0 flex-1">
-                  <h4 className="text-sm font-bold text-slate-900 truncate">{shop.shopName}</h4>
-                  <p className="text-xs text-rose-700 font-medium mt-0.5">
-                    બાકી: ₹{shop.paymentAmount ? shop.paymentAmount.toLocaleString('en-IN') : '૦'} • {shop.ownerPhone}
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => onOpenPaymentReminder(shop)}
-                  className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all shrink-0"
-                >
-                  <MessageCircle className="w-3.5 h-3.5" />
-                  <span>રિમાઇન્ડર</span>
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

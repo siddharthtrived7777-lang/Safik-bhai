@@ -271,6 +271,7 @@ export default function App() {
               onTogglePaymentStatus={handleTogglePaymentStatus}
               onOpenPaymentReminder={handleOpenPaymentReminder}
               onEditPaymentAmount={handleEditPaymentAmount}
+              onOpenShopDetails={handleOpenShopDetails}
             />
           )}
         </div>

@@ -5,32 +5,38 @@ import {
   Clock, 
   MessageCircle, 
   Phone, 
-  PhoneCall,
+  PhoneCall, 
   Calendar, 
   Store, 
   Check, 
   Filter, 
   Sparkles,
-  ArrowUpRight
+  ArrowUpRight,
+  TrendingUp,
+  ChevronRight
 } from 'lucide-react';
 import { ShopEntry } from '../types';
 import { formatGujaratiDate } from '../utils/dateUtils';
 import { getWhatsAppUrl } from '../utils/whatsapp';
+import { MonthlyEarningsModal } from './MonthlyEarningsModal';
 
 interface PaymentTrackingViewProps {
   shops: ShopEntry[];
   onTogglePaymentStatus: (shop: ShopEntry) => void;
   onOpenPaymentReminder: (shop: ShopEntry) => void;
   onEditPaymentAmount: (shop: ShopEntry) => void;
+  onOpenShopDetails?: (shop: ShopEntry) => void;
 }
 
 export const PaymentTrackingView: React.FC<PaymentTrackingViewProps> = ({
   shops,
   onTogglePaymentStatus,
   onOpenPaymentReminder,
-  onEditPaymentAmount
+  onEditPaymentAmount,
+  onOpenShopDetails
 }) => {
   const [activeTab, setActiveTab] = useState<'pending' | 'all'>('pending');
+  const [isMonthlyModalOpen, setIsMonthlyModalOpen] = useState<boolean>(false);
 
   const pendingShops = shops.filter((s) => s.paymentStatus === 'remaining');
   const completedShops = shops.filter((s) => s.paymentStatus === 'done');
@@ -75,19 +81,32 @@ export const PaymentTrackingView: React.FC<PaymentTrackingViewProps> = ({
             </div>
           </div>
 
-          {/* Collected Amount */}
-          <div className="bg-emerald-500/15 border border-emerald-500/30 rounded-2xl p-3">
-            <div className="text-[11px] font-medium text-emerald-300 flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3" />
-              <span>મળેલ પેમેન્ટ</span>
+          {/* Collected Amount / મેળવેલી રકમ (Clickable for Month-wise Earnings) */}
+          <button
+            type="button"
+            onClick={() => setIsMonthlyModalOpen(true)}
+            className="bg-emerald-500/15 border border-emerald-500/30 rounded-2xl p-3 text-left hover:bg-emerald-500/25 active:scale-98 transition-all group relative cursor-pointer"
+          >
+            <div className="flex items-center justify-between">
+              <div className="text-[11px] font-medium text-emerald-300 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                <span>મેળવેલી રકમ</span>
+              </div>
+              <span className="text-[9px] font-bold bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 px-1.5 py-0.5 rounded-md flex items-center gap-0.5 group-hover:bg-emerald-500/40 transition-colors">
+                <span>મહિને હિસાબ</span>
+                <ChevronRight className="w-2.5 h-2.5" />
+              </span>
             </div>
             <div className="text-2xl font-black text-emerald-400 mt-1">
               ₹{totalCollectedAmount.toLocaleString('en-IN')}
             </div>
-            <div className="text-[10px] text-emerald-200/80 mt-0.5">
-              {completedShops.length} દુકાનો પૂર્ણ
+            <div className="text-[10px] text-emerald-200/80 mt-0.5 flex items-center justify-between">
+              <span>{completedShops.length} દુકાનો પૂર્ણ</span>
+              <span className="text-emerald-300 text-[10px] font-semibold underline group-hover:text-emerald-200">
+                મહિના મુજબ જુઓ ↗
+              </span>
             </div>
-          </div>
+          </button>
         </div>
       </div>
 
@@ -250,6 +269,14 @@ export const PaymentTrackingView: React.FC<PaymentTrackingViewProps> = ({
           })}
         </div>
       )}
+
+      {/* Month-wise Earnings Breakdown Modal */}
+      <MonthlyEarningsModal
+        isOpen={isMonthlyModalOpen}
+        onClose={() => setIsMonthlyModalOpen(false)}
+        shops={shops}
+        onOpenShopDetails={onOpenShopDetails}
+      />
     </div>
   );
 };
