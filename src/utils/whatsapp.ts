@@ -32,9 +32,10 @@ export function generatePaymentReminderMessage(
 
 આપણી ઇન્સ્ટાગ્રામ પેજ (${handleTag}) પર પ્રમોશન શૂટ અને રીલનું કામ પૂરું થયેલ છે.
 
-બાકી પેમેન્ટ રકમ: ${amountText}
+💵 બાકી પેમેન્ટ રકમ: ${amountText}
 
-નમ્ર વિનંતી કે કૃપા કરીને બાકી પેમેન્ટ Google Pay / PhonePe / રોકડેથી પૂર્ણ કરી આપશો જી.
+💳 Google Pay / UPI ID: safikjusab@oksbi
+(સાથે મોકલેલ QR Code સ્કેન કરીને અથવા ઉપરના UPI ID પર સીધું પેમેન્ટ કરી આપશો જી)
 
 જો પેમેન્ટ થઈ ગયું હોય તો આ મેસેજને અવગણશો.
 
@@ -47,9 +48,10 @@ export function generatePaymentReminderMessage(
 
 This is a gentle reminder regarding the Instagram promotion shoot & reel completed on our page (${handleTag}).
 
-Pending Amount: ${amountTextEn}
+💵 Pending Amount: ${amountTextEn}
 
-Kindly arrange to clear the pending payment via UPI (GPay/PhonePe) or cash at your earliest convenience.
+💳 Google Pay / UPI ID: safikjusab@oksbi
+(Kindly scan the attached QR code image or pay via the UPI ID above)
 
 If already paid, kindly ignore this message.
 
